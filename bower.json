@@ -1,0 +1,22 @@
+{
+  "name": "jquery-swiper",
+  "version": "0.0.1",
+  "authors": [
+    "chinakids <494063570@qq.com>"
+  ],
+  "description": "jquery再封装的swiper",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.0",
+    "swiper": "~3.0.7"
+  },
+  "homepage": "https://github.com/chinakids/jquery-swiper",
+  "main": "jquery.swiper.js"
+}
