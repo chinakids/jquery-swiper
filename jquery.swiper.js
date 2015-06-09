@@ -5,6 +5,7 @@
   编写 : chinakids
  */
 (function($){
+  "use strict";
   //所有slide的ID
   var thisPageList=[];
   //随机数方法
@@ -28,6 +29,16 @@
     }
     return false;
   }
+  //删除指定键值
+  function deleId(id){
+    console.log(thisPageList);
+    for(var k in thisPageList){
+      if(thisPageList[k] == id){
+        thisPageList.splice(k,1);
+        console.log(thisPageList);
+      }
+    }
+  }
   //扩展方法
   $.fn.extend({
     slide : function(obj){
@@ -36,6 +47,15 @@
         var _this = $(this),
             id = rand(100,999);
         function createSlide(){
+          //绑定过先移除
+          var c = _this.attr('class'),i = '';
+          for(var k in c.split(' ')){
+            if(c.split(' ')[k].indexOf('slide-') != -1){
+              i = c.split(' ')[k];
+              _this.removeClass(i);
+              deleId(i.split('-')[1]);
+            }
+          }
           //做ID唯一判断
           //console.log(findId(id));
           if(!findId(id)){
