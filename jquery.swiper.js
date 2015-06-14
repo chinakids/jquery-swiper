@@ -58,8 +58,7 @@
    * 拷贝对象
    */
   function clone(obj){
-    if(typeof(obj) != 'object') return obj;
-    if(obj == null) return obj;
+    if(typeof(obj) != 'object' || obj == null ) return obj;
     var newObj = new Object();
     for(var i in obj){
       newObj[i] = clone(obj[i]);
