@@ -1,5 +1,5 @@
 /**
- *   说明 : swiper jquery扩展，减少dom中比不要的class添加
+ *   说明 : swiper3 jquery扩展，减少dom中比不要的class添加
  *        增加slide的ID 方便多slide维护
  *   依赖 : swiper，jquery
  *   编写 : chinakids
@@ -46,7 +46,7 @@
    * @param  {[str]} id [要删除的键值]
    */
   function deleId(id){
-    console.log(thisPageList);
+    //console.log(thisPageList);
     for(var k in thisPageList){
       if(thisPageList[k] == id){
         thisPageList.splice(k,1);
@@ -56,14 +56,40 @@
   }
   /**
    * 拷贝对象
+   * @param  {[obj]} obj [需要拷贝的对象]
+   * @return {[obj]}     [拷贝完成的新对象]
    */
   function clone(obj){
-    if(typeof(obj) != 'object' || obj == null ) return obj;
+    if(typeof(obj) != 'object') return obj;
+    if(obj == null) return obj;
     var newObj = new Object();
     for(var i in obj){
       newObj[i] = clone(obj[i]);
     }
     return newObj;
+  }
+  /**
+   * 正对 swiper2不支持某些 swiper3的特新而增加的兼容部分
+   * @param  {[object]} swiper [ swiper 对象 ]
+   * @param  {[number]} id    [ 当前 swiper 对象的 ID ]
+   * @param  {[object]} obj    [ 配置参数 ]
+   */
+  function useSwiper2(swiper,id,obj){
+    //一下都是正对 swiper2对3 特性不支持的修正
+    //prev,next 按钮修正
+    $(obj.prevButton).click(function(){
+      swiper.swipePrev();
+    })
+    $(obj.nextButton).click(function(){
+      swiper.swipeNext();
+    })
+    //间距支持修正
+    $('.slide-'+id).find('.swiper-slide').each(function(){
+      $(this).css({marginRight:obj.spaceBetween,width:$(this).width()-obj.spaceBetween})
+    })
+    //外部容器宽度修正
+    var ele = $('.slide-'+id).find('.swiper-slide');
+    $('.slide-'+id).find('.swiper-wrapper').width((ele.width()+obj.spaceBetween+2)*ele.size());
   }
   /**
    * jquery扩展方法
@@ -118,11 +144,18 @@
             if(_obj.pagination != undefined){
               _obj.pagination = '.slide-'+id+' '+_obj.pagination;
             }
+
             /**
              * 实例swiper
              */
-            console.log(_obj);
+            _obj.calculateHeight = true; //fixed swiper2
+            //console.log(_obj)
             var swiper = new Swiper('.slide-'+id+' .swiper-container',_obj);
+            //console.log(!!swiper.version)
+            if(!!!swiper.version){
+              //swiper2.使用兼容函数
+              useSwiper2(swiper,id,_obj);
+            }
 
           }else{
             id = rand(100,999);
