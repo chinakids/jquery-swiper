@@ -3,7 +3,7 @@
  *        增加slide的ID 方便多slide维护
  *   依赖 : swiper，jquery
  *   编写 : chinakids
- *   时间 : 2015-06-11
+ *   时间 : 2015-06-11  UpdataTime 2015-08-10
  */
 ;(function($){
   "use strict";
@@ -75,7 +75,7 @@
    * @param  {[object]} obj    [ 配置参数 ]
    */
   function useSwiper2(swiper,id,obj){
-    //一下都是正对 swiper2对3 特性不支持的修正
+    //一下都是正对 swiper3降级到2 特性不支持的修正
     //prev,next 按钮修正
     $(obj.prevButton).click(function(){
       swiper.swipePrev();
@@ -89,7 +89,7 @@
     })
     //外部容器宽度修正
     var ele = $('.slide-'+id).find('.swiper-slide');
-    $('.slide-'+id).find('.swiper-wrapper').width((ele.width()+obj.spaceBetween+2)*ele.size());
+    $('.slide-'+id).find('.swiper-wrapper').width((ele.width()+obj.spaceBetween+2)*ele.size() + 10); //加10为了容错
   }
   /**
    * jquery扩展方法
